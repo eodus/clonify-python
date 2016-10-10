@@ -132,7 +132,7 @@ def get_scores(i, jchunk):
         mutBonus = sharedMuts(i, j)
         if mutBonus > (LD + vPenalty + jPenalty):
             mutBonus = (LD + vPenalty + jPenalty - 0.001)  # distance values can't be negative
-        results.append((LD + vPenalty + jPenalty + lenPenalty - mutBonus) / editLength)
+        results.append((LD + vPenalty + jPenalty + lenPenalty - mutBonus) / editLength if editLength else 1005000)  # TODO Mb use Infinity here?
     return results
 
 
