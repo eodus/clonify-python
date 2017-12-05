@@ -145,6 +145,8 @@ def get_LD(i, j):
         identity = pairwise2.align.globalms(i.junc, j.junc, 1, 0, -50, -50,
                                             score_only=True,
                                             one_alignment_only=True)
+        if type(identity) != float:
+            identity = 0.0
         return i.junc_len - identity
     # Levenshtein distance is used for sequence pairs of different lengths
     else:
@@ -288,8 +290,8 @@ def get_chunksize(input):
     # To cover a rare case where taking math.ceil() will result in too few chunks of sequence data.
     # Overly simple example:
     # 10 seqs, 6 CPUs will result in creation of 5 chunks of 2 sequences each, with one CPU unused.
-    s = float(len(input)) / cpu_count()
-    if int(math.ceil(s)) * (cpu_count() - 1) > len(input):
+    s = float(len(input)) / count_cpus()
+    if int(math.ceil(s)) * (count_cpus() - 1) > len(input):
         return int(s)
     return int(math.ceil(s))
 
